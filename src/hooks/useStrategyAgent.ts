@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const API_BASE = '/api'
+const API_BASE = import.meta.env.DEV ? '/api' : '/api'
 
 interface StrategyResponse {
   response?: string
@@ -17,7 +17,8 @@ export function useStrategyAgent() {
     setError(null)
 
     try {
-      const response = await fetch(`${API_BASE}/strategy/message`, {
+      const endpoint = import.meta.env.DEV ? `${API_BASE}/strategy/message` : '/api/strategy'
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
